@@ -1,36 +1,41 @@
-# Dolphin social networks
+# Социальные сети дельфинов
 
-Two datasets on bottlenose dolphin associations, both converted to GML so that
-`networkx.read_gml` loads them the same way.
+Два графа связей между афалинами, оба в формате GML, чтобы грузить одним
+и тем же кодом через `networkx.read_gml`. Собрал для домашнего задания
+по курсу «Прикладные задачи МО на графах».
 
 ## data/dolphins_lusseau.gml
 
-Doubtful Sound, New Zealand. 62 dolphins, 159 undirected edges; an edge means
-the two animals were seen together more often than expected by chance.
-Unweighted.
+Стая из Даутфул-Саунда, Новая Зеландия. 62 дельфина, 159 рёбер, без весов.
 
-Lusseau D., Schneider K., Boisseau O.J., Haase P., Slooten E., Dawson S.M.
-*The bottlenose dolphin community of Doubtful Sound features a large proportion
-of long-lasting associations.* Behavioral Ecology and Sociobiology 54, 396–405
-(2003).
+Данные собирались около семи лет: с лодки фотографировали группы, для каждой
+пары животных считали индекс ассоциации (как часто их видели вместе относительно
+того, как часто порознь), а потом перестановочным тестом проверяли, выше ли
+он случайного. Ребро есть только у пар, где связь оказалась значимо выше
+случайной. Из 1891 возможной пары рёбра получили 159, граф разреженный,
+в среднем пять связей на дельфина. Статичный, один срез за весь период.
 
-File taken as is from the GraphStream project
-(`graphstream/gs-gephi/data/dolphins.gml`).
+Источник: Lusseau et al., 2003, Behavioral Ecology and Sociobiology 54.
+Файл взят как есть, без изменений.
 
 ## data/dolphins_florida_social.gml
 
-Cedar Key, Florida, USA. 151 dolphins, 1554 undirected edges; the "socialize"
-network out of the four activity networks in the paper. Edge attribute
-`weight` (1–5) is the number of times the pair was observed socializing.
-Node labels `Dxxx` keep the original animal ids. The graph has two connected
-components (149 + 2 animals).
+Сидар-Ки, Флорида. 151 дельфин, 1554 ребра, атрибут `weight` от 1 до 5.
 
-Gazda S., Iyer S., Killingback T., Connor R., Brault S. *The importance of
-delineating networks by activity type in bottlenose dolphins (Tursiops
-truncatus) in Cedar Key, Florida.* Royal Society Open Science 2(3), 140263
-(2015).
+Здесь подход к сбору другой. 124 дня наблюдений, ребро ставится паре, которую
+хотя бы раз видели вместе во время социального поведения, а сколько раз видели,
+записано в вес. Никакого отсева случайных встреч нет: 83% рёбер имеют вес 1,
+то есть пара встретилась однократно. Граф плотный, в среднем 21 связь на дельфина,
+и состоит из двух компонент: 149 животных и отдельная пара. Имена узлов `Dxxx`,
+где xxx это номер животного в исходных данных.
 
-Converted from the edge list `mammalia-dolphin-florida-social` distributed by
-the Network Data Repository (Rossi R.A., Ahmed N.K., AAAI 2015,
-networkrepository.com), original source Animal Social Network Repository
-(bansallab.github.io/asnr).
+Источник: Gazda et al., 2015, Royal Society Open Science 2(3). Исходно это
+список рёбер, я перевёл его в GML, чтобы формат совпадал с первым файлом,
+содержимое не менял.
+
+## Зачем два
+
+Первый граф классический учебный, на нём обычно и показывают методы выделения
+сообществ. Второй взял для сравнения: те же методы на данных, где фильтрация
+не сделана заранее, а сила связи лежит в весах. Как они себя на нём ведут,
+описано в ноутбуке по заданию.
